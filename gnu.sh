@@ -90,6 +90,8 @@ if [ "$err" != "" ]; then
 	else
 		echo "Sorry, not sure what to do to help you. Please fix the above errors manually." 
 	fi	
+
+	exit 1;
 fi
 
 
