@@ -58,7 +58,7 @@ echo ""
 
 for u in $UTILS; do
 	util="${u/:*}"
-	echo -ne "$util\t$(which $util):\t"; 
+	echo -ne "$util\t$(which "$util"):\t"; 
 
 	if [ "$($util --version 2>/dev/null | head -1 | grep "GNU")" != "" ]; then
 		echo "OK"; 
@@ -92,7 +92,7 @@ if [ "$err" != "" ]; then
 			'
 
 			for e in $err; do
-				echo "$UTILS" | awk -F ":" '/^'$e':/ { '"$awk_script"' }'
+				echo "$UTILS" | awk -F ":" '/^'"$e"':/ { '"$awk_script"' }'
 			done
 		fi
 	else
