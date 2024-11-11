@@ -13,3 +13,10 @@ missing() {
 	echo "Missing $1"
 }
 
+if [ "${USAGE_AUTOHELP:-}" ]; then
+	if [ "${*/--help/}" != "$*" ]; then
+		usage;
+		exit;
+	fi
+fi
+
