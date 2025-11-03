@@ -27,12 +27,13 @@ set -euo pipefail
 
 BIN_DIR="${BIN_DIR:-~/bin}"
 UTILS="${UTILS:-"
-find:findutils
-sed:gnu-sed
-awk:gawk
-grep:grep
-diff:diffutils
-"}"
+	find:findutils:/GNU/
+	sed:gnu-sed:/GNU/
+	awk:gawk:/GNU/
+	grep:grep:/GNU/
+	diff:diffutils:/GNU/
+	jq:jq:/jq-1/"
+}"
 
 export PATH="$BIN_DIR:$PATH"
 
@@ -55,15 +56,15 @@ case "$OSTYPE" in
 esac
 echo ""
 
+echo "$UTILS" | awk '/./' | while IFS=":" read util package pattern; do
+	which_util="$(which $util || true)"
+	header="$($util --version 2>/dev/null | head -1)"
+	echo -ne "$util\t$which_util:\t";
 
-for u in $UTILS; do
-	util="${u/:*}"
-	echo -ne "$util\t$(which "$util"):\t"; 
-
-	if [ "$($util --version 2>/dev/null | head -1 | grep "GNU")" != "" ]; then
+	if [ "$(echo "$header" | awk "$pattern")" != "" ]; then
 		echo "OK"; 
 	else
-		echo "ERROR: not GNU!"
+		echo "ERROR: $header for util '$which_util' does not match pattern $pattern!"
 		err="$err $util"
 	fi
 done;
@@ -81,7 +82,7 @@ if [ "$err" != "" ]; then
 		if ! [ -x "$BREW_BIN" ]; then
 			echo "brew is not installed..."
 			echo "Giving up."
-			exit;
+			exit 1;
 		else
 			BREW_PREFIX="$("$BREW_BIN" --prefix)"
 			echo "Here's a suggestion on how to fix things:"
