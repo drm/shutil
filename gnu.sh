@@ -2,12 +2,12 @@
 
 ## Usage:
 ##
-##	./gnu.sh 
+##	./gnu.sh
 ##
 ## A utility to detect some essential utilities that may be non-GNU
 ## on this system. For Mac, it suggests to use brew to install the GNU
 ## variants of the utilities.
-## 
+##
 ## By default, it only checks find, sed, awk, grep and diff, which are
 ## the most common tools to use in bash scripting. For other utils, typically
 ## BSD utils are fairly similar to GNU. For a more complete override of all
@@ -46,7 +46,7 @@ case "$OSTYPE" in
 		os="L"
 		;;
 	mac*|darwin*)
-		echo "You're on MAC, let's verify these utils..." 
+		echo "You're on MAC, let's verify these utils..."
 		os="M"
 		;;
 	*)
@@ -62,7 +62,7 @@ echo "$UTILS" | awk '/./' | while IFS=":" read util package pattern; do
 	echo -ne "$util\t$which_util:\t";
 
 	if [ "$(echo "$header" | awk "$pattern")" != "" ]; then
-		echo "OK"; 
+		echo "OK";
 	else
 		echo "ERROR: $header for util '$which_util' does not match pattern $pattern!"
 		err="$err $util"
@@ -97,8 +97,8 @@ if [ "$err" != "" ]; then
 			done
 		fi
 	else
-		echo "Sorry, not sure what to do to help you. Please fix the above errors manually." 
-	fi	
+		echo "Sorry, not sure what to do to help you. Please fix the above errors manually."
+	fi
 
 	exit 1;
 fi
