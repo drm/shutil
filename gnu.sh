@@ -27,11 +27,11 @@ set -euo pipefail
 
 BIN_DIR="${BIN_DIR:-~/bin}"
 UTILS="${UTILS:-"
-	find:findutils:/GNU/
-	sed:gnu-sed:/GNU/
-	awk:gawk:/GNU/
-	grep:grep:/GNU/
-	diff:diffutils:/GNU/
+	find:findutils:/GNU/ && ! /BSD/
+	sed:gnu-sed:/GNU/ && ! /BSD/
+	awk:gawk:/GNU/ && ! /BSD/
+	grep:grep:/GNU/ && ! /BSD/
+	diff:diffutils:/GNU/ && ! /BSD/
 	jq:jq:/jq-1/"
 }"
 
